@@ -9,6 +9,7 @@
 import os
 import sys
 import traceback
+from {{cookiecutter.module_name}} import {{cookiecutter.method_name}} as {{cookiecutter.method_name}}
 
 import arcpy
 from arcpy import env
@@ -63,7 +64,22 @@ class {{cookiecutter.tool}}(object):
 
     def getParameterInfo(self):
         """Define parameter definitions"""
-        params = None
+        params = [
+            arcpy.Parameter(
+                name="param_1",
+                displayName="Parameter 1",
+                datatype="GPString",
+                direction="Input",
+                parameterType="Required"
+            ),
+            arcpy.Parameter(
+                name="param_2",
+                displayName="Parameter 2",
+                datatype="GPString",
+                direction="Input",
+                parameterType="Required"
+            )
+        ]
         return params
 
     def isLicensed(self):
@@ -84,7 +100,7 @@ class {{cookiecutter.tool}}(object):
     def execute(self, parameters, messages):
         """The source code of the tool."""
         try:
-            return
+            {{cookiecutter.method_name}}(parameters[0].valueAsText, parameters[1].valueAsText)
         except arcpy.ExecuteError:
             line, filename, synerror = trace()
             arcpy.AddError("error on line: %s" % line)
